@@ -1,0 +1,19 @@
+{
+  "name": "Buhle Bemfundo Academy",
+  "short_name": "BuhleBemfundo",
+  "description": "Premium parent app \u2014 ECD/Primary (Soweto) + Secondary (Brakpan). Founded 1998 by Phiwe Zwane.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#1a1a2e",
+  "background_color": "#0d0d1a",
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable",
+      "label": "Buhle Bemfundo Academy"
+    }
+  ]
+}

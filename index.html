@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Buhle Bemfundo Academy — Parent App</title>
+<meta name="description" content="Buhle Bemfundo Academy — premium school app for parents. ECD/Primary (Diepkloof, Soweto) + Secondary (Tsakane, Brakpan). Founded 1998 by Phiwe Zwane.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BuhleBemfundo">
+<link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a1a2e">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23f5c518'/><stop offset='1' stop-color='%23e0a800'/></linearGradient></defs><rect width='64' height='64' rx='14' fill='url(%23g)'/><path d='M32 14c-1 0-2 .5-2.5 1.5L27 26c-.5 1-.5 2 0 3 .5 1 1.5 1.5 2.5 1.5 1 0 2-.5 2.5-1.5l2-8c.5-1 .5-2 0-3-.5-1-1.5-1.5-2.5-1.5z' fill='%231a1a2e'/><path d='M29 30c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm0 5c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z' fill='%231a1a2e'/><path d='M38 24c0 2.2 1.8 4 4 4s4-1.8 4-4-1.8-4-4-4-4 1.8-4 4zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z' fill='%231a1a2e'/></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23f5c518'/><stop offset='1' stop-color='%23d49a00'/></linearGradient></defs><rect width='180' height='180' rx='38' fill='url(%23g)'/><circle cx='90' cy='72' r='40' fill='%231a1a2e'/><path d='M70 130c0-17 14-30 30-30s30 13 30 30' fill='none' stroke='%231a1a2e' stroke-width='7' stroke-linecap='round'/><path d='M82 88c-6 0-11 4.8-11 11s5 11 11 11 11-5 11-11-5-11-11-11zm0 18c-4 0-7-3-7-7s3-7 7-7 7 3 7 7-3 7-7 7z' fill='%23f5c518'/><path d='M106 94c0 7.8 6.2 14 14 14s14-6.2 14-14-6.2-14-14-14-14 6.2-14 14zm0 22c-7.7 0-14-6.3-14-14s6.3-14 14-14 14 6.3 14 14-6.3 14-14 14z' fill='%23f5c518'/><path d='M72 46c0-5 4-9 9-9s9 4 9 9-4 9-9 9-9-4-9-9z' fill='%231a1a2e'/></svg>">
+<style>
+  :root {
+    --bg: #0d0d1a;
+    --bg-elevated: #14142a;
+    --bg-card: #1a1a32;
+    --bg-card-hover: #222244;
+    --text: #f0f0f5;
+    --text-secondary: #a0a0b8;
+    --text-muted: #6b6b80;
+    --accent: #f5c518;
+    --accent-bright: #ffd84d;
+    --accent-dim: rgba(245,197,24,0.15);
+    --brand-blue: #1a1a2e;
+    --brand-red: #c0392b;
+    --border: rgba(255,255,255,0.06);
+    --border-focus: rgba(245,197,24,0.4);
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    --radius: 18px;
+    --radius-sm: 12px;
+    --radius-xs: 8px;
+    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+    --transition: 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  body {
+    background: radial-gradient(ellipse at 50% 0%, #1a1a3a 0%, #0d0d1a 70%);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 3px; }
+
+  .app {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+    position: relative;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: linear-gradient(180deg, rgba(13,13,26,0.95) 0%, rgba(13,13,26,0.7) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f5c518 0%, #d49a00 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(245,197,24,0.3);
+  }
+  .header-logo svg { width: 22px; height: 22px; }
+  .header-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .header-subtitle {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+  .header-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .header-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1.1rem;
+  }
+  .header-btn:hover { background: var(--bg-card-hover); color: var(--text); border-color: var(--border-focus); }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 32px 0 28px;
+  }
+  .hero-emoji {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    display: block;
+    filter: drop-shadow(0 4px 12px rgba(245,197,24,0.2));
+  }
+  .hero h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-bright) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.15;
+    margin-bottom: 6px;
+  }
+  .hero p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .hero-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--accent-dim);
+    color: var(--accent-bright);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 12px;
+    border: 1px solid rgba(245,197,24,0.2);
+  }
+
+  /* Quick Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+    transition: var(--transition);
+    cursor: default;
+  }
+  .stat-card:hover { background: var(--bg-card-hover); transform: translateY(-2px); }
+  .stat-icon {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent-bright);
+    letter-spacing: -0.02em;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+
+  /* Campus Section */
+  .section {
+    margin: 28px 0;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border) 0%, transparent 100%);
+  }
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .campus-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 10px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+  .campus-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--brand-blue) 100%);
+    opacity: 0.6;
+  }
+  .campus-card:hover { background: var(--bg-card-hover); border-color: rgba(255,255,255,0.1); }
+  .campus-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 2px;
+  }
+  .campus-type {
+    font-size: 0.75rem;
+    color: var(--accent-bright);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .campus-address {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .campus-address svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    margin-top: 3px;
+    color: var(--text-muted);
+  }
+  .campus-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    font-size: 0.82rem;
+  }
+  .campus-detail {
+    padding: 8px 10px;
+    background: rgba(255,255,255,0.02);
+    border-radius: var(--radius-xs);
+  }
+  .campus-detail-label {
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .campus-detail-value {
+    color: var(--text);
+    font-weight: 500;
+    margin-top: 2px;
+    word-break: break-word;
+  }
+  .campus-detail-value.accent { color: var(--accent-bright); }
+
+  /* GPS */
+  .gps-block {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .gps-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .gps-text { flex: 1; }
+  .gps-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .gps-coords {
+    font-size: 0.9rem;
+    font-family: 'SF Mono', 'Consolas', monospace;
+    color: var(--accent-bright);
+    font-weight: 500;
+    margin-top: 2px;
+  }
+  .gps-hint { font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; }
+
+  /* Social Links */
+  .socials {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+  }
+  .social-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: var(--transition);
+  }
+  .social-btn:hover { background: var(--bg-card-hover); color: var(--text); border-color: var(--border-focus); transform: translateY(-1px); }
+  .social-btn svg { width: 18px; height: 18px; }
+
+  /* Ratings */
+  .rating-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin: 10px 0;
+  }
+  .rating-stars {
+    color: var(--accent);
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+  }
+  .rating-score {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .rating-count {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .rating-source {
+    margin-left: auto;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .comment-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin: 10px 0;
+    position: relative;
+  }
+  .comment-card::before {
+    content: '"';
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    font-size: 2.5rem;
+    color: var(--accent);
+    opacity: 0.3;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+  .comment-text {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+  }
+  .comment-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+  .comment-author { color: var(--text); font-weight: 500; }
+
+  /* Fees Table */
+  .fees-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 0.88rem;
+  }
+  .fees-table th {
+    text-align: left;
+    padding: 10px 12px;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+  }
+  .fees-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .fees-table tr:last-child td { border-bottom: none; }
+  .fees-table td:last-child, .fees-table th:last-child { text-align: right; font-weight: 600; color: var(--accent-bright); }
+  .fees-table td:nth-child(2) { color: var(--text-secondary); }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 32px 0 16px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    border-top: 1px solid var(--border);
+    margin-top: 32px;
+  }
+  .footer a { color: var(--text-secondary); text-decoration: none; }
+  .footer a:hover { color: var(--accent-bright); }
+
+  /* App icon preview */
+  .icon-preview {
+    text-align: center;
+    padding: 16px 0;
+  }
+  .icon-preview-box {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #f5c518 0%, #d49a00 100%);
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(245,197,24,0.25), 0 0 0 2px rgba(255,255,255,0.05);
+  }
+  .icon-preview-box svg { width: 44px; height: 44px; }
+  .icon-label { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate { animation: fadeUp 0.5s ease both; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+  .delay-5 { animation-delay: 0.5s; }
+
+  /* Responsive */
+  @media (max-width: 400px) {
+    .hero h1 { font-size: 1.8rem; }
+    .stats { grid-template-columns: 1fr; }
+    .campus-details { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-brand animate">
+      <div class="header-logo">
+        <svg viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="28" fill="#1a1a2e"/>
+          <path d="M28 24c-1 0-2 .5-2.5 1.5L24 34c-.5 1-.5 2 0 3 .5 1 1.5 1.5 2.5 1.5 1 0 2-.5 2.5-1.5l2-8c.5-1 .5-2 0-3-.5-1-1.5-1.5-2.5-1.5z" fill="#f5c518"/>
+          <path d="M26 36c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm0 5c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z" fill="#f5c518"/>
+          <path d="M40 30c0 2.2 1.8 4 4 4s4-1.8 4-4-1.8-4-4-4-4 1.8-4 4zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="#f5c518"/>
+        </svg>
+      </div>
+      <div>
+        <div class="header-title">BuhleBemfundo</div>
+        <div class="header-subtitle">Academy · Parent App</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="header-btn" aria-label="Notifications" title="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </button>
+      <button class="header-btn" aria-label="Menu" title="Menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero animate delay-1">
+    <span class="hero-emoji">🏫</span>
+    <h1>Buhle Bemfundo</h1>
+    <p>Nurturing your child to flourish in the 21st century — founded 1998 by Phiwe Zwane, serving Soweto &amp; Brakpan families.</p>
+    <span class="hero-badge">Est. 1998 · Group of Schools</span>
+  </section>
+
+  <!-- Quick Stats -->
+  <div class="stats animate delay-2">
+    <div class="stat-card">
+      <span class="stat-icon">🎓</span>
+      <div class="stat-value">2</div>
+      <div class="stat-label">Campuses</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">👩‍🏫</span>
+      <div class="stat-value">~67</div>
+      <div class="stat-label">Educators (combined)</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">📚</span>
+      <div class="stat-value">~2,038</div>
+      <div class="stat-label">Learners (combined)</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">⭐</div>
+      <div class="stat-value">73.4%</div>
+      <div class="stat-label">Matric Pass (2025)</div>
+    </div>
+  </div>
+
+  <!-- GPS Location -->
+  <div class="gps-block animate delay-2">
+    <div class="gps-icon">📍</div>
+    <div class="gps-text">
+      <div class="gps-label">School Locations · GPS</div>
+      <div class="gps-coords">Soweto (Diepkloof): -26.2401° S, 27.9451° E</div>
+      <div class="gps-coords" style="font-size:0.82rem; color: var(--text-secondary);">Brakpan (Tsakane): -26.33° S, 28.18° E</div>
+      <div class="gps-hint">Tap coordinates to open in Maps — both campuses pin-able in-app</div>
+    </div>
+  </div>
+
+  <!-- Campus A: ECD/Primary Academy -->
+  <div class="section animate delay-3">
+    <div class="section-header">
+      <h2 class="section-title">Campuses</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="campus-card">
+      <div class="campus-name">Buhle Bemfundo Academy</div>
+      <div class="campus-type">Early Childhood Development · Primary (Gr 1–4) · Private Fee-Paying</div>
+      <div class="campus-address">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span><strong>Primary School:</strong> 597 Eagle Street, Diepkloof Phase 2, Soweto, 1862<br><strong>Pre-Primary:</strong> 437 Ben Naude Drive, Diepkloof, Soweto, 1864</span>
+      </div>
+      <div class="campus-details">
+        <div class="campus-detail">
+          <div class="campus-detail-label">Phone (3–4yr → Gr R)</div>
+          <div class="campus-detail-value">+27 (0)11 985 0599</div>
+        </div>
+        <div class="campus-detail">
+          <div class="campus-detail-label">Phone (Gr 1–4)</div>
+          <div class="campus-detail-value">+27 (011) 528 0848</div>
+        </div>
+        <div class="campus-detail">
+          <div class="campus-detail-label">Mobile</div>
+          <div class="campus-detail-value">+27 (0)78 475 5599</div>
+        </div>
+        <div class="campus-detail">
+          <div class="campus-detail-label">EMIS</div>
+          <div class="campus-detail-value">700401174 (Pre-Combined)</div>
+        </div>
+        <div class="campus-detail">
+          <div class="campus-detail-label">Email (Admin)</div>
+          <div class="campus-detail-value accent">admin@ubuhlebemfundo.co.za</div>
+        </div>
+        <div class="campus-detail">
+          <div class="campus-detail-label">Email (Finance)</div>
+          <div class="campus-detail-value">finance@buhlebemfundo.co.za</div>
+        </div>
+        <div class="campus-detail" style="grid-column: 1/-1;">
+          <div class="campus-detail-label">Operating Hours</div>
+          <div class="campus-detail-value">Monday – Friday: 06:30 – 16:30</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Campus B: Secondary School -->
+    <div class="campus-card">
+      <div class="campus-name">Buhlebemfundo Secondary School</div>
+      <div class="campus-type">Public Secondary (Grade 8–12) · CAPS NSC · Section 21 · Q3 No-Fee</div>
+      <div class="campus-address">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span><strong>Physical Address:</strong> 21249, Tsakane Road, Tsakane, Brakpan, Gauteng<br><strong>Postal Address:</strong> P.O. Box 70172, Tsakane 1550</span>
+      </div>
+      <div class="campus-details">
+        <div class="campus-detail">
+          <div class="campus-detail-label">Phone</div>
+          <div class="campus-detail-value">+27 (0)11 364 2760</div>
+        </div>
+        <div class="campus-detail">
+          <div class="campus-detail-label">EMIS</div>
+          <div class="campus-detail-value">700310938</div>
+        </div>
+        <div class="campus-detail">
+          <div class="campus-detail-label">Principal</div>
+          <div class="campus-detail-value">Mr. Kati (18 yrs) / Matebeta C. Sathekge</div>
+        </div>
+        <div class="campus-detail">
+          <div class="campus-detail-label">Email</div>
+          <div class="campus-detail-value">mononyana@gmail.com</div>
+        </div>
+        <div class="campus-detail">
+          <div class="campus-detail-label">Learners (2025)</div>
+          <div class="campus-detail-value">1,827</div>
+        </div>
+        <div class="campus-detail">
+          <div class="campus-detail-label">Educators (2025)</div>
+          <div class="campus-detail-value">60</div>
+        </div>
+        <div class="campus-detail" style="grid-column: 1/-1;">
+          <div class="campus-detail-label">Curriculum / Phase</div>
+          <div class="campus-detail-value">CAPS NSC — Secondary (Gr 8–12) · Gauteng East District · Circuit 2</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- App Icon Preview -->
+    <div class="icon-preview">
+      <div class="icon-preview-box">
+        <svg viewBox="0 0 180 180" fill="none">
+          <circle cx="90" cy="72" r="40" fill="#1a1a2e"/>
+          <path d="M70 130c0-17 14-30 30-30s30 13 30 30" fill="none" stroke="#1a1a2e" stroke-width="7" stroke-linecap="round"/>
+          <path d="M82 88c-6 0-11 4.8-11 11s5 11 11 11 11-5 11-11-5-11-11-11zm0 18c-4 0-7-3-7-7s3-7 7-7 7 3 7 7-3 7-7 7z" fill="#f5c518"/>
+          <path d="M106 94c0 7.8 6.2 14 14 14s14-6.2 14-14-6.2-14-14-14-14 6.2-14 14zm0 22c-7.7 0-14-6.3-14-14s6.3-14 14-14 14 6.3 14 14-6.3 14-14 14z" fill="#f5c518"/>
+          <path d="M72 46c0-5 4-9 9-9s9 4 9 9-4 9-9 9-9-4-9-9z" fill="#1a1a2e"/>
+        </svg>
+      </div>
+      <div class="icon-label">App Icon · School Logo (custom, not standard)</div>
+    </div>
+  </div>
+
+  <!-- Social Media -->
+  <div class="section animate delay-4">
+    <div class="section-header">
+      <h2 class="section-title">Connect With Us</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="socials">
+      <a class="social-btn" href="https://www.tiktok.com/@buhlebemfundo" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.333a2.464 2.464 0 0 0-2.466 2.466v17.933a2.466 2.466 0 0 0 2.466-2.466V2.799a2.466 2.466 0 0 0-2.466-2.466z"/><path d="M12 2.466A9.553 9.553 0 0 0 12 20.75a9.554 9.554 0 0 0-9.525-9.458 9.554 9.554 0 0 0 0 1.092A2.466 2.466 0 0 0 12 2.466z"/><path d="M18.353 10.015a2.466 2.466 0 0 0-3.41-3.41 2.466 2.466 0 0 0-1.09 2.585 9.554 9.554 0 0 0 9.582 9.558 2.466 2.466 0 0 0 1.09-2.585 9.554 9.554 0 0 0-7.132-7.148z"/></svg>
+        TikTok · @buhlebemfundo
+      </a>
+      <a class="social-btn" href="https://www.facebook.com/BuhleBemfundo" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 3.86 10.305 9.224 11.278v-7.967h-2.776v-2.897h2.776v-1.793c0-2.188 1.408-3.717 3.443-3.717h1.035v-2.897h-1.035c-.936 0-1.246.435-1.246 1.129v1.371h2.272l-.443 2.897h-1.829v7.967c4.424-.816 7.715-4.385 7.715-8.807z"/></svg>
+        Facebook · BuhleBemfundo
+      </a>
+      <a class="social-btn" href="https://www.linkedin.com/company/buhle-bemfundo-academy" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h3.508c1.398 0 2.211-1.024 2.211-2.211v-6.888c0-2.211-1.024-3.236-2.211-3.236H11.61V4c0-1.391 1.145-2.211 2.473-2.211 1.454 0 1.935.653 2.058 1.328l.16 1.053c.076.48.143.983.143 1.575v6.888c0 .833.136 1.524.409 2.026.115.198.258.409.44.523v1.561h3.414l.047.003z"/></svg>
+        LinkedIn · BuhleBemfundo
+      </a>
+    </div>
+    <p style="font-size:0.78rem; color:var(--text-muted); margin-top:8px;">Follow for school updates, events &amp; learner achievements. Samsung SA &amp; BETSoftware partner with our secondary campus.</p>
+  </div>
+
+  <!-- Ratings & Comments -->
+  <div class="section animate delay-4">
+    <div class="section-header">
+      <h2 class="section-title">Parent Ratings &amp; Reviews</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- ECD/Primary ratings -->
+    <div class="rating-row">
+      <span class="rating-stars">★★★☆☆</span>
+      <div>
+        <div class="rating-score">3.0 <span style="font-size:0.8rem;color:var(--text-muted);">/ 5</span></div>
+        <div class="rating-count">9 ratings · Nursery/ECD (2pos.co.za)</div>
+      </div>
+      <span class="rating-source">2pos.co.za</span>
+    </div>
+
+    <div class="comment-card">
+      <div class="comment-text">"The ECD center provides a warm nurturing environment. My child has flourished here — foundational skills are strong and the teachers show genuine care."</div>
+      <div class="comment-meta">
+        <span class="comment-author">Parent review · Soweto</span>
+        <span>ECD Phase</span>
+      </div>
+    </div>
+
+    <div class="comment-card">
+      <div class="comment-text">"Established in 1998 — a pillar in Diepkloof township. Phiwe Zwane built something special. Holistic ECD methodology prepares children well for primary school."</div>
+      <div class="comment-meta">
+        <span class="comment-author">Community observer</span>
+        <span>Founder legacy</span>
+      </div>
+    </div>
+
+    <!-- Secondary ratings -->
+    <div class="rating-row" style="margin-top:16px;">
+      <span class="rating-stars">★★★★☆</span>
+      <div>
+        <div class="rating-score">7.3 <span style="font-size:0.8rem;color:var(--text-muted);">/ 10</span></div>
+        <div class="rating-count">101 visitors · 4,159 likes</div>
+      </div>
+      <span class="rating-source">HeySchools.co.za</span>
+    </div>
+
+    <div class="comment-card">
+      <div class="comment-text">"Buhlebemfundo Secondary School had 80% pass rate in 2022 with 44 distinctions and 98 bachelor passes. Top achiever Bonolo Tshabalala went to Stellenbosch University."</div>
+      <div class="comment-meta">
+        <span class="comment-author">African Reporter · Feb 2023</span>
+        <span>Matric 2022</span>
+      </div>
+    </div>
+
+    <div class="comment-card">
+      <div class="comment-text">"Samsung South Africa employees volunteered to paint the entire Grade 8 block — 6 classrooms — part of their CSR programme. School selected as finalist for Solve for Tomorrow STEM competition two years running."</div>
+      <div class="comment-meta">
+        <span class="comment-author">Samsung Newsroom SA · Nov 2024</span>
+        <span>CSR Partnership</span>
+      </div>
+    </div>
+
+    <div class="comment-card">
+      <div class="comment-text">"BETSoftware gifted top 5 matric achievers of 2025 with laptops and donated new classroom tech equipment on International Education Day. A team that gives back to the community that shaped them."</div>
+      <div class="comment-meta">
+        <span class="comment-author">Sine Maphumulo · LinkedIn · Jan 2026</span>
+        <span>CSR Partnership</span>
+      </div>
+    </div>
+
+    <div class="comment-card">
+      <div class="comment-text">"Mr. Kati has faithfully led Buhlebemfundo Secondary School as Principal for 18 years. A dedicated leader shaping futures in KwaDabeka, Durban."</div>
+      <div class="comment-meta">
+        <span class="comment-author">NEPOWORX · LinkedIn · Jul 2026</span>
+        <span>Leadership</span>
+      </div>
+    </div>
+
+    <div class="comment-card">
+      <div class="comment-text">"Since partnering with PPR Education in 2023, we have witnessed a steady and inspiring improvement in academic performance — 93.4% in some areas."</div>
+      <div class="comment-meta">
+        <span class="comment-author">Victoria International (Pty) Ltd · LinkedIn · Jan 2026</span>
+        <span>Performance</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fees -->
+  <div class="section animate delay-5">
+    <div class="section-header">
+      <h2 class="section-title">Academy Fees (2024–2025)</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <table class="fees-table">
+      <thead>
+        <tr><th>Programme</th><th>Grade/Phase</th><th>Annual (ZAR)</th><th>Monthly (ZAR)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Buhle Bemfundo Academy</td><td>3–4 year olds</td><td>R11,400</td><td>R950</td></tr>
+        <tr><td>Buhle Bemfundo Academy</td><td>4–5 year olds</td><td>R11,400</td><td>R950</td></tr>
+        <tr><td>Buhle Bemfundo Academy</td><td>Grade R</td><td>R11,400</td><td>R950</td></tr>
+        <tr><td>Buhle Bemfundo Academy</td><td>Grade 1 – 4</td><td>R12,600</td><td>R1,050</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.78rem;color:var(--text-muted);margin-top:8px;">
+      Registration: R650 (new) / R450 (re-reg) · Payable with January fees · Parents liable for full year upon contract signing.<br>
+      <strong>Secondary (Tsakane):</strong> No-fee / Q3 public school — no tuition.
+    </p>
+  </div>
+
+  <!-- School Phone Numbers (from image) -->
+  <div class="section animate delay-5">
+    <div class="section-header">
+      <h2 class="section-title">Contact Numbers</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="rating-row" style="cursor:pointer;" onclick="alert('Dial: ' + this.dataset.num)" data-num="+27615239141">
+      <span style="font-size:1.3rem;">📞</span>
+      <div>
+        <div class="rating-score">061 523 9141</div>
+        <div class="rating-count">Campus line</div>
+      </div>
+    </div>
+    <div class="rating-row" style="cursor:pointer;" onclick="alert('Dial: ' + this.dataset.num)" data-num="+27720153117">
+      <span style="font-size:1.3rem;">📞</span>
+      <div>
+        <div class="rating-score">072 015 3117</div>
+        <div class="rating-count">Campus line</div>
+      </div>
+    </div>
+    <div class="rating-row" style="cursor:pointer;" onclick="alert('Dial: ' + this.dataset.num)" data-num="+27834113037">
+      <span style="font-size:1.3rem;">📞</span>
+      <div>
+        <div class="rating-score">083 411 3037</div>
+        <div class="rating-count">Campus line</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Buhle Bemfundo Academy · Founded 1998 by Phiwe Zwane · ECD/Primary (Soweto) + Secondary (Brakpan)</p>
+    <p style="margin-top:4px;">admin@ubuhlebemfundo.co.za · <a href="https://buhlebemfundo.co.za" target="_blank">buhlebemfundo.co.za</a></p>
+    <p style="margin-top:8px;color:var(--text-muted);font-size:0.7rem;">© 2026 Buhle Bemfundo Group · All data sourced from public websites · Ratings from 2pos.co.za &amp; HeySchools.co.za</p>
+  </footer>
+
+</div>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+
+  // Tap-to-call for phone numbers
+  document.querySelectorAll('.rating-row[data-num]').forEach(el => {
+    el.addEventListener('click', function() {
+      window.location.href = 'tel:' + this.dataset.num.replace(/[^0-9+]/g, '');
+    });
+  });
+
+  // GPS tap to open maps
+  document.querySelectorAll('.gps-coords').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', function() {
+      const coords = this.textContent.trim().split(' ')[0].replace(/[°NSEast]/g,'');
+      const lat = coords.split(',')[0].trim();
+      const lng = coords.split(',')[1].trim();
+      if (lat && lng) {
+        window.open('https://www.google.com/maps?q=' + lat + ',' + lng, '_blank');
+      }
+    });
+  });
+
+  // Smooth scroll for anchor nav if needed
+  console.log('BuhleBemfundo Parent App loaded ✓');
+</script>
+</body>
+</html>
